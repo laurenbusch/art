@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio — Artist Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --dark: #1a1714;
+    --warm: #c8a97a;
+    --muted: #9e9189;
+    --light-border: rgba(26,23,20,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    mix-blend-mode: multiply;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--dark);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 60px 80px;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 8vw, 108px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--warm);
+  }
+
+  .hero-desc {
+    max-width: 380px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    border: 1px solid var(--dark);
+    text-decoration: none;
+    color: var(--dark);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    width: fit-content;
+  }
+
+  .btn:hover {
+    background: var(--dark);
+    color: var(--cream);
+  }
+
+  .btn-arrow { transition: transform 0.3s; }
+  .btn:hover .btn-arrow { transform: translateX(4px); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #d4c4a8 0%, #b8a88a 40%, #9e8c72 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-image-placeholder::after {
+    content: 'Your Featured Work';
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+  }
+
+  .hero-caption {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    writing-mode: vertical-rl;
+  }
+
+  /* MARQUEE */
+  .marquee-strip {
+    border-top: 1px solid var(--light-border);
+    border-bottom: 1px solid var(--light-border);
+    padding: 16px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    background: var(--dark);
+    color: var(--cream);
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 22s linear infinite;
+  }
+
+  .marquee-inner span {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin: 0 40px;
+    opacity: 0.7;
+  }
+
+  .marquee-inner span.dot {
+    color: var(--warm);
+    margin: 0 10px;
+    opacity: 1;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* GALLERY */
+  .gallery {
+    padding: 120px 60px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 64px;
+    border-bottom: 1px solid var(--light-border);
+    padding-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  .section-count {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 20px;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .gallery-item:nth-child(1) { grid-column: 1 / 6; grid-row: 1; }
+  .gallery-item:nth-child(2) { grid-column: 6 / 13; grid-row: 1; }
+  .gallery-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
+  .gallery-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; }
+  .gallery-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; }
+
+  .gallery-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item:nth-child(1) .gallery-img { aspect-ratio: 3/4; }
+  .gallery-item:nth-child(2) .gallery-img { aspect-ratio: 16/10; }
+
+  /* Placeholder art images */
+  .art-placeholder {
+    width: 100%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item:nth-child(1) .art-placeholder { aspect-ratio: 3/4; background: linear-gradient(160deg, #8b9e8a 0%, #5a6e59 50%, #3d4f3c 100%); }
+  .gallery-item:nth-child(2) .art-placeholder { aspect-ratio: 16/10; background: linear-gradient(200deg, #c4956a 0%, #8b5e3c 50%, #5c3a20 100%); }
+  .gallery-item:nth-child(3) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(120deg, #9a8fa8 0%, #6b5f7a 60%, #4a4055 100%); }
+  .gallery-item:nth-child(4) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(180deg, #b5a898 0%, #7a6b5e 100%); }
+  .gallery-item:nth-child(5) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(220deg, #8fb8c4 0%, #5a8a96 50%, #3a6070 100%); }
+
+  .gallery-item:hover .art-placeholder { transform: scale(1.04); }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,23,20,0.7) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+  }
+
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  .gallery-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: white;
+    font-style: italic;
+  }
+
+  .gallery-item-meta {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 120px 60px;
+    background: var(--dark);
+    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .about-image {
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #3a3530 0%, #2a2520 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 32px;
+    position: relative;
+  }
+
+  .about-image::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(200,169,122,0.2);
+    pointer-events: none;
+  }
+
+  .about-image-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+  }
+
+  .about-content {}
+
+  .about-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 24px;
+  }
+
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--cream);
+  }
+
+  .about-title em { font-style: italic; color: var(--warm); }
+
+  .about-text {
+    color: rgba(245,240,232,0.65);
+    line-height: 1.9;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(245,240,232,0.1);
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--warm);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    margin-top: 6px;
+  }
+
+  /* FOR SALE */
+  .for-sale {
+    padding: 120px 60px;
+  }
+
+  .sale-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 64px;
+  }
+
+  .sale-item {
+    border: 1px solid var(--light-border);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+
+  .sale-item:hover {
+    box-shadow: 0 20px 60px rgba(26,23,20,0.12);
+  }
+
+  .sale-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sale-item:hover .sale-img { transform: scale(1.03); }
+
+  .sale-item:nth-child(1) .sale-img { background: linear-gradient(135deg, #c4956a 0%, #8b5e3c 100%); }
+  .sale-item:nth-child(2) .sale-img { background: linear-gradient(135deg, #8b9e8a 0%, #3d4f3c 100%); }
+  .sale-item:nth-child(3) .sale-img { background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
+
+  .sale-info {
+    padding: 24px;
+    border-top: 1px solid var(--light-border);
+  }
+
+  .sale-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 4px;
+  }
+
+  .sale-medium {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .sale-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  .sale-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--warm);
+  }
+
+  .sale-status {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid var(--dark);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--dark);
+  }
+
+  .sale-status:hover {
+    background: var(--dark);
+    color: var(--cream);
+  }
+
+  .sale-status.sold {
+    border-color: var(--muted);
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .inquire-note {
+    text-align: center;
+    margin-top: 60px;
+    padding: 40px;
+    border: 1px solid var(--light-border);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .inquire-note p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  /* CONTACT / FOOTER */
+  footer {
+    background: var(--dark);
+    color: var(--cream);
+    padding: 80px 60px 40px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: start;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+    margin-bottom: 40px;
+  }
+
+  .footer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--warm);
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+
+  .footer-email {
+    color: rgba(245,240,232,0.5);
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245,240,232,0.2);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .footer-email:hover {
+    color: var(--warm);
+    border-color: var(--warm);
+  }
+
+  .footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: right;
+  }
+
+  .footer-social a {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-social a:hover { color: var(--warm); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeUp 0.8s ease 0.1s both; }
+  .hero-title { animation: fadeUp 0.8s ease 0.25s both; }
+  .hero-desc { animation: fadeUp 0.8s ease 0.4s both; }
+  .btn { animation: fadeUp 0.8s ease 0.55s both; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,23,20,0.95);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox-close {
+    position: absolute;
+    top: 32px; right: 40px;
+    font-size: 28px;
+    color: var(--cream);
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+
+  .lightbox-close:hover { opacity: 1; }
+
+  .lightbox-content {
+    max-width: 80vw;
+    max-height: 85vh;
+    text-align: center;
+  }
+
+  .lightbox-art {
+    width: 500px;
+    height: 600px;
+    display: block;
+    margin: 0 auto 24px;
+  }
+
+  .lightbox-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--cream);
+    font-weight: 300;
+  }
+
+  .lightbox-meta {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    margin-top: 8px;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 24px 24px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vw; }
+    .hero-left { padding: 100px 24px 60px; }
+    .gallery { padding: 80px 24px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:nth-child(1) { grid-column: 1 / 2; }
+    .gallery-item:nth-child(2) { grid-column: 2 / 3; }
+    .gallery-item:nth-child(3), .gallery-item:nth-child(4), .gallery-item:nth-child(5) { grid-column: span 1; }
+    .about { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+    .for-sale { padding: 80px 24px; }
+    .sale-grid { grid-template-columns: 1fr; }
+    footer { padding: 60px 24px 32px; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-social { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Your Name</a>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#for-sale">Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Original works &amp; prints</p>
+    <h1 class="hero-title">Art<br>that <em>moves</em><br>the eye</h1>
+    <p class="hero-desc">Painting and mixed media from a working studio in [Your City]. Each piece is made slowly, with intention.</p>
+    <a href="#gallery" class="btn">View Gallery <span class="btn-arrow">&#8594;</span></a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder"></div>
+    <div class="hero-caption">2024 collection</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>Original Paintings</span><span class="dot">&#9679;</span>
+    <span>Mixed Media</span><span class="dot">&#9679;</span>
+    <span>Limited Prints</span><span class="dot">&#9679;</span>
+    <span>Commissions Available</span><span class="dot">&#9679;</span>
+    <span>Studio Work</span><span class="dot">&#9679;</span>
+    <span>Available for Purchase</span><span class="dot">&#9679;</span>
+    <span>Original Paintings</span><span class="dot">&#9679;</span>
+    <span>Mixed Media</span><span class="dot">&#9679;</span>
+    <span>Limited Prints</span><span class="dot">&#9679;</span>
+    <span>Commissions Available</span><span class="dot">&#9679;</span>
+    <span>Studio Work</span><span class="dot">&#9679;</span>
+    <span>Available for Purchase</span><span class="dot">&#9679;</span>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-header">
+    <h2 class="section-title">Selected Works</h2>
+    <span class="section-count">05 pieces</span>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openLightbox('Untitled No. 1', 'Oil on canvas, 2024 &mdash; 24 &times; 36 in', 1)">
+      <div class="art-placeholder"></div>
+      <div class="gallery-overlay">
+        <div class="gallery-item-title">Untitled No. 1</div>
+        <div class="gallery-item-meta">Oil on canvas &bull; 2024</div>
+      </div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('The Long Afternoon', 'Acrylic &amp; oil, 2024 &mdash; 48 &times; 30 in', 2)">
+      <div class="art-placeholder"></div>
+      <div class="gallery-overlay">
+        <div class="gallery-item-title">The Long Afternoon</div>
+        <div class="gallery-item-meta">Acrylic &amp; oil &bull; 2024</div>
+      </div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('Proximity', 'Mixed media, 2023 &mdash; 18 &times; 24 in', 3)">
+      <div class="art-placeholder"></div>
+      <div class="gallery-overlay">
+        <div class="gallery-item-title">Proximity</div>
+        <div class="gallery-item-meta">Mixed media &bull; 2023</div>
+      </div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('Still Water', 'Watercolor, 2023 &mdash; 16 &times; 20 in', 4)">
+      <div class="art-placeholder"></div>
+      <div class="gallery-overlay">
+        <div class="gallery-item-title">Still Water</div>
+        <div class="gallery-item-meta">Watercolor &bull; 2023</div>
+      </div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('Blue Study', 'Oil on board, 2024 &mdash; 12 &times; 16 in', 5)">
+      <div class="art-placeholder"></div>
+      <div class="gallery-overlay">
+        <div class="gallery-item-title">Blue Study</div>
+        <div class="gallery-item-meta">Oil on board &bull; 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-image">
+    <div class="about-image-label">In the studio, 2024</div>
+  </div>
+  <div class="about-content">
+    <p class="about-eyebrow">About the artist</p>
+    <h2 class="about-title">Making work that<br><em>demands presence</em></h2>
+    <p class="about-text">
+      I am a [medium]-based artist working out of my studio in [City]. My practice spans oil painting, mixed media, and [other medium], with a focus on [your themes].
+    </p>
+    <p class="about-text">
+      My work has been shown at [gallery or exhibition] and collected by [type of collector]. I take on a limited number of commissions each year.
+    </p>
+    <p class="about-text">
+      I am drawn to [what draws you in], and my process involves [brief description of how you work]. Every piece begins with [starting point].
+    </p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-number">12</div>
+        <div class="stat-label">Years practicing</div>
+      </div>
+      <div>
+        <div class="stat-number">80+</div>
+        <div class="stat-label">Works completed</div>
+      </div>
+      <div>
+        <div class="stat-number">6</div>
+        <div class="stat-label">Exhibitions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR SALE -->
+<section class="for-sale" id="for-sale">
+  <div class="section-header">
+    <h2 class="section-title">Available Works</h2>
+    <span class="section-count">Originals &amp; prints</span>
+  </div>
+
+  <div class="sale-grid">
+    <div class="sale-item">
+      <div class="sale-img"></div>
+      <div class="sale-info">
+        <div class="sale-title">The Long Afternoon</div>
+        <div class="sale-medium">Acrylic &amp; oil on canvas &bull; 48 &times; 30 in &bull; 2024</div>
+        <div class="sale-footer">
+          <div class="sale-price">$1,200</div>
+          <a href="mailto:you@youremail.com?subject=Inquiry: The Long Afternoon" class="sale-status">Inquire</a>
+        </div>
+      </div>
+    </div>
+    <div class="sale-item">
+      <div class="sale-img"></div>
+      <div class="sale-info">
+        <div class="sale-title">Blue Study</div>
+        <div class="sale-medium">Oil on board &bull; 12 &times; 16 in &bull; 2024</div>
+        <div class="sale-footer">
+          <div class="sale-price">$480</div>
+          <a href="mailto:you@youremail.com?subject=Inquiry: Blue Study" class="sale-status">Inquire</a>
+        </div>
+      </div>
+    </div>
+    <div class="sale-item">
+      <div class="sale-img"></div>
+      <div class="sale-info">
+        <div class="sale-title">Proximity</div>
+        <div class="sale-medium">Mixed media &bull; 18 &times; 24 in &bull; 2023</div>
+        <div class="sale-footer">
+          <div class="sale-price">Sold</div>
+          <span class="sale-status sold">Sold</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inquire-note">
+    <p>Interested in a piece? I respond to all inquiries personally. I also accept commissions for original work on a limited basis.</p>
+    <a href="mailto:you@youremail.com" class="btn">Get in touch <span class="btn-arrow">&#8594;</span></a>
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="footer-top">
+    <div>
+      <div class="footer-title">Let's talk.</div>
+      <a href="mailto:you@youremail.com" class="footer-email">you@youremail.com</a>
+    </div>
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">Are.na</a>
+      <a href="#">Substack</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2024 Your Name. All rights reserved.</span>
+    <span class="footer-copy">Hand-coded with care.</span>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('active')">&times;</button>
+  <div class="lightbox-content">
+    <div class="lightbox-art" id="lightbox-art" style="background: linear-gradient(135deg, #8b9e8a 0%, #3d4f3c 100%);"></div>
+    <div class="lightbox-title" id="lightbox-title"></div>
+    <div class="lightbox-meta" id="lightbox-meta"></div>
+  </div>
+</div>
+
+<script>
+  const palettes = [
+    'linear-gradient(160deg, #8b9e8a 0%, #5a6e59 50%, #3d4f3c 100%)',
+    'linear-gradient(200deg, #c4956a 0%, #8b5e3c 50%, #5c3a20 100%)',
+    'linear-gradient(120deg, #9a8fa8 0%, #6b5f7a 60%, #4a4055 100%)',
+    'linear-gradient(180deg, #b5a898 0%, #7a6b5e 100%)',
+    'linear-gradient(220deg, #8fb8c4 0%, #5a8a96 50%, #3a6070 100%)',
+  ];
+
+  function openLightbox(title, meta, idx) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-title').textContent = title;
+    document.getElementById('lightbox-meta').innerHTML = meta;
+    document.getElementById('lightbox-art').style.background = palettes[idx - 1];
+    lb.classList.add('active');
+  }
+
+  function closeLightbox(e) {
+    if (e.target === document.getElementById('lightbox')) {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active');
+  });
+</script>
+</body>
+</html>
