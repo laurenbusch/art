@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Studio — Artist Portfolio</title>
+<title>Lauren Busch Art</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --cream: #f5f0e8;
-    --dark: #1a1714;
-    --warm: #c8a97a;
-    --muted: #9e9189;
+    --cream: #eee8f5;
+    --dark: #373738;
+    --warm: #834fb3;
+    --muted: #898b9e;
     --light-border: rgba(26,23,20,0.12);
   }
 
@@ -46,8 +46,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 28px 60px;
-    mix-blend-mode: multiply;
+    padding: 8px 60px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--light-border);
   }
 
   .nav-logo {
@@ -89,7 +90,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 120px 60px 80px;
+    padding: 80px 60px 80px;
   }
 
   .hero-eyebrow {
@@ -148,12 +149,13 @@
   .hero-right {
     position: relative;
     overflow: hidden;
+    padding-top: 80px;
   }
 
   .hero-image-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #d4c4a8 0%, #b8a88a 40%, #9e8c72 100%);
+    background: linear-gradient(135deg,#eee8f5 0%, #898b9e 40%,  #834fb3 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -165,11 +167,40 @@
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 18px;
-    color: rgba(255,255,255,0.5);
+    color: rgba(76, 85, 112, 0.5);
     position: absolute;
     bottom: 40px;
     left: 40px;
   }
+
+  .gallery-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.gallery-tab {
+  background: none;
+  border: 1px solid var(--light-border);
+  padding: 8px 24px;
+  font-family: 'Tenor Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.gallery-tab.active {
+  background: var(--dark);
+  color: var(--cream);
+  border-color: var(--dark);
+}
+
+.gallery-tab:hover:not(.active) {
+  border-color: var(--dark);
+  color: var(--dark);
+}
 
   .hero-caption {
     position: absolute;
@@ -178,7 +209,7 @@
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
+    color: rgba(76, 85, 112, 0.5);
     writing-mode: vertical-rl;
   }
 
@@ -263,6 +294,9 @@
   .gallery-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
   .gallery-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; }
   .gallery-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; }
+  #tab-prints .gallery-item:nth-child(1) { grid-column: 1 / 5; grid-row: 1; }
+#tab-prints .gallery-item:nth-child(2) { grid-column: 5 / 9; grid-row: 1; }
+#tab-prints .gallery-item:nth-child(3) { grid-column: 9 / 13; grid-row: 1; }
 
   .gallery-img {
     width: 100%;
@@ -282,11 +316,11 @@
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  .gallery-item:nth-child(1) .art-placeholder { aspect-ratio: 3/4; background: linear-gradient(160deg, #8b9e8a 0%, #5a6e59 50%, #3d4f3c 100%); }
-  .gallery-item:nth-child(2) .art-placeholder { aspect-ratio: 16/10; background: linear-gradient(200deg, #c4956a 0%, #8b5e3c 50%, #5c3a20 100%); }
-  .gallery-item:nth-child(3) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(120deg, #9a8fa8 0%, #6b5f7a 60%, #4a4055 100%); }
-  .gallery-item:nth-child(4) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(180deg, #b5a898 0%, #7a6b5e 100%); }
-  .gallery-item:nth-child(5) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(220deg, #8fb8c4 0%, #5a8a96 50%, #3a6070 100%); }
+  .gallery-item:nth-child(1) .art-placeholder { aspect-ratio: 3/4; background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
+  .gallery-item:nth-child(2) .art-placeholder { aspect-ratio: 16/10; background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
+  .gallery-item:nth-child(3) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
+  .gallery-item:nth-child(4) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
+  .gallery-item:nth-child(5) .art-placeholder { aspect-ratio: 4/3; background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
 
   .gallery-item:hover .art-placeholder { transform: scale(1.04); }
 
@@ -332,8 +366,8 @@
   }
 
   .about-image {
-    aspect-ratio: 3/4;
-    background: linear-gradient(160deg, #3a3530 0%, #2a2520 100%);
+    aspect-ratio: 1/1;
+    background: linear-gradient(160deg, #898b9e 0%, #5a5b64 100%);
     display: flex;
     align-items: flex-end;
     padding: 32px;
@@ -344,7 +378,7 @@
     content: '';
     position: absolute;
     inset: 12px;
-    border: 1px solid rgba(200,169,122,0.2);
+    border: 1px solid rgba(45, 28, 109, 0.2);
     pointer-events: none;
   }
 
@@ -353,7 +387,9 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--warm);
-  }
+    writing-mode: horizontal-tb;
+    margin-top: 8px;
+}
 
   .about-content {}
 
@@ -440,8 +476,8 @@
 
   .sale-item:hover .sale-img { transform: scale(1.03); }
 
-  .sale-item:nth-child(1) .sale-img { background: linear-gradient(135deg, #c4956a 0%, #8b5e3c 100%); }
-  .sale-item:nth-child(2) .sale-img { background: linear-gradient(135deg, #8b9e8a 0%, #3d4f3c 100%); }
+  .sale-item:nth-child(1) .sale-img { background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
+  .sale-item:nth-child(2) .sale-img { background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
   .sale-item:nth-child(3) .sale-img { background: linear-gradient(135deg, #9a8fa8 0%, #4a4055 100%); }
 
   .sale-info {
@@ -680,7 +716,7 @@
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Your Name</a>
+  <a href="#" class="nav-logo">Lauren Busch</a>
   <ul class="nav-links">
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#about">About</a></li>
@@ -693,13 +729,13 @@
 <section class="hero">
   <div class="hero-left">
     <p class="hero-eyebrow">Original works &amp; prints</p>
-    <h1 class="hero-title">Art<br>that <em>moves</em><br>the eye</h1>
-    <p class="hero-desc">Painting and mixed media from a working studio in [Your City]. Each piece is made slowly, with intention.</p>
+    <h1 class="hero-title">Art<br>that <em>moves</em><br>the heart</h1>
+    <p class="hero-desc">Oil paintings and relief prints made in Aurora, CO. Work that celebrates the joy, beauty and playfulness hiding in everyday life.</p>
     <a href="#gallery" class="btn">View Gallery <span class="btn-arrow">&#8594;</span></a>
   </div>
   <div class="hero-right">
-    <div class="hero-image-placeholder"></div>
-    <div class="hero-caption">2024 collection</div>
+    <img src="LunaIsTheStar.jpg" alt="Luna Is The Star" style="width:100%; display:block;">
+    <div class="hero-caption">Luna Is The Star - 2025</div>
   </div>
 </section>
 
@@ -707,8 +743,8 @@
 <div class="marquee-strip">
   <div class="marquee-inner">
     <span>Original Paintings</span><span class="dot">&#9679;</span>
-    <span>Mixed Media</span><span class="dot">&#9679;</span>
-    <span>Limited Prints</span><span class="dot">&#9679;</span>
+    <span>Original Prints</span><span class="dot">&#9679;</span>
+    <span>Limited Reproduction Prints</span><span class="dot">&#9679;</span>
     <span>Commissions Available</span><span class="dot">&#9679;</span>
     <span>Studio Work</span><span class="dot">&#9679;</span>
     <span>Available for Purchase</span><span class="dot">&#9679;</span>
@@ -725,79 +761,108 @@
 <section class="gallery" id="gallery">
   <div class="section-header">
     <h2 class="section-title">Selected Works</h2>
-    <span class="section-count">05 pieces</span>
+    <div class="gallery-tabs">
+      <button class="gallery-tab active" onclick="switchTab('paintings')">Paintings</button>
+      <button class="gallery-tab" onclick="switchTab('prints')">Prints</button>
+    </div>
   </div>
 
-  <div class="gallery-grid">
-    <div class="gallery-item" onclick="openLightbox('Untitled No. 1', 'Oil on canvas, 2024 &mdash; 24 &times; 36 in', 1)">
-      <div class="art-placeholder"></div>
+  <div id="tab-paintings" class="gallery-grid">
+    <div class="gallery-item" onclick="openLightbox('Snacks', 'Oil on panel, 2025', 1)">
+      <img src="Snacks.JPG" alt="Snacks" class="art-placeholder">
       <div class="gallery-overlay">
-        <div class="gallery-item-title">Untitled No. 1</div>
-        <div class="gallery-item-meta">Oil on canvas &bull; 2024</div>
+        <div class="gallery-item-title">Snacks</div>
+        <div class="gallery-item-meta">Oil on panel &bull; 2025</div>
       </div>
     </div>
-    <div class="gallery-item" onclick="openLightbox('The Long Afternoon', 'Acrylic &amp; oil, 2024 &mdash; 48 &times; 30 in', 2)">
-      <div class="art-placeholder"></div>
+    <div class="gallery-item" onclick="openLightbox('Rodi', 'Oil on panel, 2025', 2)">
+      <img src="Rodi.jpg" alt="Rodi" class="art-placeholder" style="aspect-ratio: 14/11;">
       <div class="gallery-overlay">
-        <div class="gallery-item-title">The Long Afternoon</div>
-        <div class="gallery-item-meta">Acrylic &amp; oil &bull; 2024</div>
+        <div class="gallery-item-title">Rodi</div>
+        <div class="gallery-item-meta">Oil on panel &bull; 2025</div>
       </div>
     </div>
-    <div class="gallery-item" onclick="openLightbox('Proximity', 'Mixed media, 2023 &mdash; 18 &times; 24 in', 3)">
-      <div class="art-placeholder"></div>
+    <div class="gallery-item" onclick="openLightbox('Chews A Good Boy', 'Oil on panel, 2026', 3)">
+      <img src="ChewsAGoodBoy.jpg" alt="Chews A Good Boy" class="art-placeholder" style="aspect-ratio: 3/4;">
       <div class="gallery-overlay">
-        <div class="gallery-item-title">Proximity</div>
-        <div class="gallery-item-meta">Mixed media &bull; 2023</div>
+        <div class="gallery-item-title">Chews A Good Boy</div>
+        <div class="gallery-item-meta">Oil on panel &bull; 2026</div>
       </div>
     </div>
-    <div class="gallery-item" onclick="openLightbox('Still Water', 'Watercolor, 2023 &mdash; 16 &times; 20 in', 4)">
-      <div class="art-placeholder"></div>
+    <div class="gallery-item" onclick="openLightbox('Astrophe the Dramati-Cat', 'Oil on panel, 2025', 4)">
+      <img src="AstropheTheDramatiCat.jpg" alt="Astrophe the Dramati-Cat" class="art-placeholder" style="aspect-ratio: 3/4;">
       <div class="gallery-overlay">
-        <div class="gallery-item-title">Still Water</div>
-        <div class="gallery-item-meta">Watercolor &bull; 2023</div>
+        <div class="gallery-item-title">Astrophe the Dramati-Cat</div>
+        <div class="gallery-item-meta">Oil on panel &bull; 2025</div>
       </div>
     </div>
-    <div class="gallery-item" onclick="openLightbox('Blue Study', 'Oil on board, 2024 &mdash; 12 &times; 16 in', 5)">
-      <div class="art-placeholder"></div>
+    <div class="gallery-item" onclick="openLightbox('Luca\'s Shoes', 'Oil on panel, 2025', 5)">
+      <img src="LucasShoes.jpg" alt="Luca's Shoes" class="art-placeholder" style="aspect-ratio: 4/3;">
       <div class="gallery-overlay">
-        <div class="gallery-item-title">Blue Study</div>
-        <div class="gallery-item-meta">Oil on board &bull; 2024</div>
+        <div class="gallery-item-title">Luca's Shoes</div>
+        <div class="gallery-item-meta">Oil on panel &bull; 2025</div>
       </div>
     </div>
   </div>
+
+<div id="tab-prints" class="gallery-grid" style="display:none;">
+  <div class="gallery-item" onclick="openLightbox('Good Boy Sam', 'Relief print, 2023', 6)">
+    <img src="GoodBoySam.jpg" alt="Good Boy Sam" class="art-placeholder" style="aspect-ratio: 1/1;">
+    <div class="gallery-overlay">
+      <div class="gallery-item-title">Good Boy Sam</div>
+      <div class="gallery-item-meta">Relief print &bull; 2023</div>
+    </div>
+  </div>
+ <div class="gallery-item" onclick="openLightbox('Confidence', 'Relief print, 2019', 8)">
+    <img src="Confidence.jpg" alt="Confidence" class="art-placeholder" style="aspect-ratio: 3/4;">
+    <div class="gallery-overlay">
+      <div class="gallery-item-title">Confidence</div>
+      <div class="gallery-item-meta">Relief print &bull; 2019</div>
+    </div>
+  </div>
+  <div class="gallery-item" onclick="openLightbox('Good Girl Shaya', 'Screen print, 2023', 7)">
+    <img src="GoodGirlShaya.jpg" alt="Good Girl Shaya" class="art-placeholder" style="aspect-ratio: 4/5;">
+    <div class="gallery-overlay">
+      <div class="gallery-item-title">Good Girl Shaya</div>
+      <div class="gallery-item-meta">Screen print &bull; 2023</div>
+    </div>
+  </div>
+</div>
 </section>
 
 <!-- ABOUT -->
 <section class="about" id="about">
-  <div class="about-image">
-    <div class="about-image-label">In the studio, 2024</div>
+  <div class="about-left">
+    <div class="about-image">
+      <img src="lauren_about.jpg" alt="Lauren Busch, 2026 National Arts Program Best of Show" style="width:100%; height:auto; object-fit:contain;">
+    </div>
+    <div class="about-image-label">Best of Show, 2026</div>
   </div>
   <div class="about-content">
     <p class="about-eyebrow">About the artist</p>
-    <h2 class="about-title">Making work that<br><em>demands presence</em></h2>
+    <h2 class="about-title">Making work that<br><em>lives in joy</em></h2>
     <p class="about-text">
-      I am a [medium]-based artist working out of my studio in [City]. My practice spans oil painting, mixed media, and [other medium], with a focus on [your themes].
+      Lauren Busch is an oil painter and printmaker based in Aurora, CO. Her work is rooted in a lifelong love of mark-making that started before she could talk, and a deep appreciation for imaginative, expressive color.
+Her paintings and relief prints celebrate the joy, playfulness, and beauty she finds in everyday life. 
+</p>
+<p class="about-text">
+  Working primarily in oils, Lauren is drawn to loose, free styles even as her perfectionist side keeps pulling her back toward the details. That tension, she'll tell you, is where the interesting work happens. Her work has been shown at The Schoolhouse in Parker, CO, and has found homes with collectors who want to bring more color and joy into their everyday spaces.
+</p>
+<p class="about-text">
+  After fifteen years in tech, Lauren came back to art seriously as an adult and hasn't looked back. Outside of painting and printmaking, she is endlessly curious across creative mediums, spending her free time experimenting with fiber craft, digital work, works on paper, and whatever else catches her eye. She is a member and Vice President of the Parker Artists Guild.
+</p>
+<p class="about-text">
+  Her color work has been shaped significantly by the teaching of Alaia Ganuza, and she cites Clyde Steadman, Paul Heaston, and Mitch Caster among her favorite local influences.
     </p>
     <p class="about-text">
-      My work has been shown at [gallery or exhibition] and collected by [type of collector]. I take on a limited number of commissions each year.
+      My work has been shown at The Schoolhouse in Parker,CO. Her work has found homes with collectors who want to bring more color and joy into their everyday spaces. I take on a limited number of commissions each year.
     </p>
-    <p class="about-text">
-      I am drawn to [what draws you in], and my process involves [brief description of how you work]. Every piece begins with [starting point].
-    </p>
-    <div class="about-stats">
-      <div>
-        <div class="stat-number">12</div>
-        <div class="stat-label">Years practicing</div>
-      </div>
-      <div>
-        <div class="stat-number">80+</div>
-        <div class="stat-label">Works completed</div>
-      </div>
-      <div>
-        <div class="stat-number">6</div>
-        <div class="stat-label">Exhibitions</div>
-      </div>
-    </div>
+    <div class="about-stats" style="display:block; border-top: 1px solid rgba(245,240,232,0.1); padding-top: 40px; margin-top: 48px;">
+  <blockquote style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; font-style: italic; color: var(--warm); line-height: 1.4; margin-bottom: 16px;">
+    "Creativity is allowing yourself to make mistakes. Art is knowing which ones to keep."
+  </blockquote>
+  <cite style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,240,232,0.4);">— Scott Adams</cite>
+</div>
   </div>
 </section>
 
@@ -810,32 +875,54 @@
 
   <div class="sale-grid">
     <div class="sale-item">
-      <div class="sale-img"></div>
+      <img src="AstropheTheDramatiCat.jpg" alt="Astrophe The Dramati-Cat" class="sale-img" style="aspect-ratio: 4/5;">
       <div class="sale-info">
-        <div class="sale-title">The Long Afternoon</div>
-        <div class="sale-medium">Acrylic &amp; oil on canvas &bull; 48 &times; 30 in &bull; 2024</div>
+        <div class="sale-title">Astrophe the Dramati-Cat</div>
+        <div class="sale-medium">Reproduction Print &amp; 8 &times; 10 in &bull; 2025</div>
         <div class="sale-footer">
-          <div class="sale-price">$1,200</div>
-          <a href="mailto:you@youremail.com?subject=Inquiry: The Long Afternoon" class="sale-status">Inquire</a>
+          <div class="sale-price">$25</div>
+          <a href="mailto:art.lauren.busch@gmail.com?subject=Inquiry: Astrophe the Dramati-Cat" class="sale-status">Inquire</a>
         </div>
       </div>
     </div>
     <div class="sale-item">
-      <div class="sale-img"></div>
+      <img src="LucasShoes.jpg" alt="Luca's Shoes" class="sale-img" style="aspect-ratio: 4/3;">
       <div class="sale-info">
-        <div class="sale-title">Blue Study</div>
-        <div class="sale-medium">Oil on board &bull; 12 &times; 16 in &bull; 2024</div>
+        <div class="sale-title">Luca's Shoes</div>
+        <div class="sale-medium">Oil on panel, framed &bull; 8 &times; 6 in &bull; 2023</div>
         <div class="sale-footer">
-          <div class="sale-price">$480</div>
-          <a href="mailto:you@youremail.com?subject=Inquiry: Blue Study" class="sale-status">Inquire</a>
+          <div class="sale-price">$245</div>
+          <a href="mailto:art.lauren.busch@gmail.com?subject=Inquiry: Luca\'s Shoes" class="sale-status">Inquire</a>
         </div>
       </div>
     </div>
     <div class="sale-item">
-      <div class="sale-img"></div>
+      <img src="ItsBananas.jpg" alt="Shh, It's Bananas" class="sale-img" style="aspect-ratio: 5/4;">
       <div class="sale-info">
-        <div class="sale-title">Proximity</div>
-        <div class="sale-medium">Mixed media &bull; 18 &times; 24 in &bull; 2023</div>
+        <div class="sale-title">Shh, It's Bananas</div>
+        <div class="sale-medium">Oil on panel, framed &bull; 10 &times; 8 in &bull; 2023</div>
+        <div class="sale-footer">
+          <div class="sale-price">$350</div>
+          <a href="mailto:art.lauren.busch@gmail.com?subject=Inquiry: Shh, It's Bananas" class="sale-status">Inquire</a>
+        </div>
+      </div>
+    </div>
+    <div class="sale-item">
+      <img src="MeasuredContemplation.jpg" alt="Measured Contemplation" class="sale-img" style="aspect-ratio: 5/4;">
+      <div class="sale-info">
+        <div class="sale-title">Measured Contemplation</div>
+        <div class="sale-medium">Oil on panel &bull; 14 &times; 11 in &bull; 2025</div>
+        <div class="sale-footer">
+          <div class="sale-price">Sold</div>
+          <span class="sale-status sold">Sold</span>
+        </div>
+      </div>
+    </div>
+    <div class="sale-item">
+       <img src="ChewsAGoodBoy.jpg" alt="Chew's A Good Boy" class="sale-img" style="aspect-ratio: 3/4;">
+      <div class="sale-info">
+        <div class="sale-title">Chew's A Good Boy</div>
+        <div class="sale-medium">Oil on panel &bull; 12 &times; 18 in &bull; 2026</div>
         <div class="sale-footer">
           <div class="sale-price">Sold</div>
           <span class="sale-status sold">Sold</span>
@@ -845,8 +932,8 @@
   </div>
 
   <div class="inquire-note">
-    <p>Interested in a piece? I respond to all inquiries personally. I also accept commissions for original work on a limited basis.</p>
-    <a href="mailto:you@youremail.com" class="btn">Get in touch <span class="btn-arrow">&#8594;</span></a>
+    <p>Interested in a piece? I respond to all inquiries personally. I also accept commissions for original pet portraits on a limited basis.</p>
+    <a href="mailto:art.lauren.busch@gmail.com" class="btn">Get in touch <span class="btn-arrow">&#8594;</span></a>
   </div>
 </section>
 
@@ -855,16 +942,15 @@
   <div class="footer-top">
     <div>
       <div class="footer-title">Let's talk.</div>
-      <a href="mailto:you@youremail.com" class="footer-email">you@youremail.com</a>
+      <a href="mailto:art.lauren.busch@gmail.com" class="footer-email">art.lauren.busch@gmail.com</a>
     </div>
     <div class="footer-social">
-      <a href="#">Instagram</a>
-      <a href="#">Are.na</a>
-      <a href="#">Substack</a>
+      <a href="https://www.instagram.com/laurengbink/" target="_blank">Instagram</a>
+     
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">&copy; 2024 Your Name. All rights reserved.</span>
+    <span class="footer-copy">&copy; 2024 Lauren Busch. All rights reserved.</span>
     <span class="footer-copy">Hand-coded with care.</span>
   </div>
 </footer>
@@ -905,6 +991,13 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active');
   });
+function switchTab(tab) {
+  document.getElementById('tab-paintings').style.display = tab === 'paintings' ? 'grid' : 'none';
+  document.getElementById('tab-prints').style.display = tab === 'prints' ? 'grid' : 'none';
+  document.querySelectorAll('.gallery-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', (tab === 'paintings' && i === 0) || (tab === 'prints' && i === 1));
+  });
+}
 </script>
 </body>
 </html>
